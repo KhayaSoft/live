@@ -28,34 +28,28 @@ const LANG_COLOR_CLASSES: Record<string, string> = {
 
 const ALL_LANGS = ["EN", "PT", "FR", "ZH", "ZU", "XIT"];
 
-// Direct Google Translate call — used when backend is unreachable (demo/offline mode)
+// Direct translation via MyMemory — free, no API key needed
 async function translateDirect(
   text: string,
   sourceLang: string,
   targetLangs: string[]
 ): Promise<Record<string, string>> {
-  const key = (import.meta.env.VITE_GOOGLE_TRANSLATE_KEY ?? "") as string;
-  if (!key) throw new Error("No VITE_GOOGLE_TRANSLATE_KEY configured");
   const source = GOOGLE_LANG[sourceLang] ?? sourceLang.toLowerCase();
   const pairs = await Promise.all(
     targetLangs.map(async (lang) => {
       const target = GOOGLE_LANG[lang] ?? lang.toLowerCase();
       const res = await fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=${key}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ q: text, source, target, format: "text" }),
-        }
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${source}|${target}`
       );
       const data = await res.json() as {
-        data?: { translations?: Array<{ translatedText: string }> };
-        error?: { message: string };
+        responseStatus: number;
+        responseData?: { translatedText: string };
+        responseDetails?: string;
       };
-      if (data.error) throw new Error(data.error.message);
-      const translated = data.data?.translations?.[0]?.translatedText;
-      if (!translated) throw new Error(`No translation for ${lang}`);
-      return [lang, translated] as [string, string];
+      if (data.responseStatus !== 200 || !data.responseData?.translatedText) {
+        throw new Error(data.responseDetails ?? `No translation for ${lang}`);
+      }
+      return [lang, data.responseData.translatedText] as [string, string];
     })
   );
   return Object.fromEntries(pairs);
