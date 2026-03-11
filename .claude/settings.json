@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l \"/c/Users/Administrator/Documents/Jay/Live speak/globalspeak-live-main/src/components/ui\"/*.tsx)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(timeout 5 node server.js)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(node -e \"require\\(''./db''\\); require\\(''./routes/auth''\\); require\\(''./routes/meetings''\\); console.log\\(''DB + routes OK''\\)\")",
+      "Bash(git config:*)",
+      "Bash(where git:*)",
+      "Bash(git --version)"
+    ]
+  }
+}
