@@ -19,10 +19,17 @@ export default function Join() {
     try {
       // Validate that the meeting exists
       await meetingsApi.get(trimmed);
-      // Record the user as a participant
-      await meetingsApi.join(trimmed);
+      // Record the user as a participant (best-effort)
+      await meetingsApi.join(trimmed).catch(() => {});
       navigate(`/meeting/${trimmed}`);
     } catch (err) {
+      // Network error (backend unreachable / CORS) — go to room anyway.
+      // The meeting might have been created offline; Socket.io will handle signaling.
+      const isNetworkError = err instanceof TypeError && String(err.message).toLowerCase().includes("fetch");
+      if (isNetworkError) {
+        navigate(`/meeting/${trimmed}`);
+        return;
+      }
       setError(err instanceof Error ? err.message : "Meeting not found");
     } finally {
       setIsLoading(false);
