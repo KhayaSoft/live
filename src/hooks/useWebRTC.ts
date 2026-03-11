@@ -131,9 +131,9 @@ export function useWebRTC({ roomId, token, displayName, language, onTranslationU
 
       const socket = io(WS_URL, {
         auth: { token },
-        transports: ["websocket"],
-        reconnectionAttempts: 2,
-        timeout: 4000,
+        transports: ["polling", "websocket"],
+        reconnectionAttempts: 3,
+        timeout: 8000,
       });
       socketRef.current = socket;
 

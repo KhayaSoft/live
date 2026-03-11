@@ -11,13 +11,16 @@ const app = express();
 const server = http.createServer(app);
 
 // Accept comma-separated origins, e.g. "https://live.empire216.co.za,http://localhost:8080"
-const ALLOWED_ORIGINS = (process.env.FRONTEND_URL || "http://localhost:8080")
+// If FRONTEND_URL is not set, allow all origins so the app works out-of-the-box on any host.
+const ALLOWED_ORIGINS = (process.env.FRONTEND_URL || "")
   .split(",")
   .map((o) => o.trim())
   .filter(Boolean);
 
 const corsOptions = {
   origin: (origin, cb) => {
+    // No FRONTEND_URL configured → permissive (any origin allowed)
+    if (!ALLOWED_ORIGINS.length) return cb(null, true);
     // Allow requests with no origin (curl, Postman, same-origin)
     if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
     cb(new Error(`CORS: origin ${origin} not allowed`));
