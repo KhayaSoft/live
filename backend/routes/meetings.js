@@ -76,7 +76,7 @@ router.post("/:meetingId/join", verifyToken, (req, res) => {
 });
 
 // ISO 639-1 codes
-const LANG_ISO = { EN: "en", PT: "pt", FR: "fr", ZH: "zh", ZU: "zu", XIT: "ts" };
+const LANG_ISO = { EN: "en", PT: "pt", FR: "fr", ZH: "zh", RU: "ru", DE: "de" };
 
 async function translateOne(text, srcCode, tgtCode) {
   const src = LANG_ISO[srcCode.toUpperCase()] || srcCode.toLowerCase();

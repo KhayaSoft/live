@@ -10,12 +10,12 @@ const users = collection("users");
 
 // ── Demo accounts (seeded once on first start) ────────────────────────────────
 const DEMO_USERS = [
-  { email: "alex@demo.gs",   password: "demo123", displayName: "Alex Johnson",   language: "EN"  },
-  { email: "joao@demo.gs",   password: "demo123", displayName: "João Silva",     language: "PT"  },
-  { email: "marie@demo.gs",  password: "demo123", displayName: "Marie Dupont",   language: "FR"  },
-  { email: "chen@demo.gs",   password: "demo123", displayName: "Chen Wei",       language: "ZH"  },
-  { email: "sipho@demo.gs",  password: "demo123", displayName: "Sipho Ndlovu",   language: "ZU"  },
-  { email: "xiluva@demo.gs", password: "demo123", displayName: "Xiluva Baloyi",  language: "XIT" },
+  { email: "alex@demo.gs",  password: "demo123", displayName: "Alex Johnson", language: "EN" },
+  { email: "joao@demo.gs",  password: "demo123", displayName: "João Silva",   language: "PT" },
+  { email: "marie@demo.gs", password: "demo123", displayName: "Marie Dupont", language: "FR" },
+  { email: "chen@demo.gs",  password: "demo123", displayName: "Chen Wei",     language: "ZH" },
+  { email: "ivan@demo.gs",  password: "demo123", displayName: "Ivan Petrov",  language: "RU" },
+  { email: "hans@demo.gs",  password: "demo123", displayName: "Hans Müller",  language: "DE" },
 ];
 
 (async () => {
